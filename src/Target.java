@@ -19,8 +19,8 @@ public class Target extends JPanel{
 	public Target(){
 		int [] xy = Clock.getXY();
 		x=xy[0];y=xy[1];				
-		targetX = 50+Clock.shooter[0][0];
-		targetY = 200-Clock.shooter[1][0];
+		targetX = Clock.shooter[0][0];
+		targetY = Clock.shooter[1][0];
 		angle =  Math.tanh((this.y-this.targetY)/(this.x-targetX));
 	}
 
@@ -93,18 +93,21 @@ public class Target extends JPanel{
 	}
 	public void setNextPos(){
 		Graphics2D g = (Graphics2D)getGraphics();
-		this.targetX = 50+Clock.shooter[0][Clock.nSeconds];
-		this.targetY = 200-Clock.shooter[1][Clock.nSeconds];
-		setBounds(targetX,targetY,30,30);
+		this.targetX = Clock.shooter[0][Clock.nSeconds];
+		this.targetY = Clock.shooter[1][Clock.nSeconds];
+		setBounds(Clock.shooter[0][Clock.nSeconds],Clock.shooter[0][Clock.nSeconds],30,30);
 	}
 
 
 	@Override
-	public void paint(Graphics g) {
+	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
-		super.paint(g);
+		super.paintComponent(g);
 		g.setColor(Color.RED);
 		g.fillOval(0,0, 30, 30);
+		setBounds(targetX,targetY,30,30);
+		setOpaque(true);
+
 		g.dispose();
 	}
 	

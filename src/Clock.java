@@ -34,23 +34,22 @@ public class Clock extends JFrame{
     	shooterObj = new Shooter();
     	targetObj = new Target();
     	
-    	timeLabel.setBounds(100, 0, 100, 50);
-    	shooterObj.setLocation(0,50);
-    	targetObj.setLocation(100,0);
     	updater = new UpdateUITask();
     	
     	timeLabel.setText(String.valueOf(-1));
-    	timeLabel.setSize(500,50);
+    	timeLabel.setBounds(200, 20, 100, 50);
+    	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocation(0,0);
-	    setVisible(true);
+        setBounds(100, 100,800, 600);
         JPanel main = new JPanel();
-        
-        setLayout(null);
+        setLayout(new BorderLayout());
+        main.setLayout(null);
+        main.setSize(500,500);
 //        main.add(event);
-        add(timeLabel);
-        add(shooterObj);
-        add(targetObj);
+        main.add(shooterObj);
+        main.add(targetObj);
+        add(timeLabel,BorderLayout.PAGE_START);
+        add(main,BorderLayout.CENTER);
 //        getContentPane().add(main);
         pack();
 //        setLocationRelativeTo(null);
@@ -89,22 +88,25 @@ public class Clock extends JFrame{
                 @Override
                 public void run() {
                 	counter++;
-                	if(counter/10>=shooter[0].length){
-                		cancel();return;
-                	}
+                	
                 		
                 	
-                	if(counter/10==nSeconds){
-                		shooterObj.moveToTarget();
-                		}
-                	else {                    	
-                    	nSeconds=counter/10;
+                	if(counter/10>nSeconds){
+                		nSeconds=counter/10;
                     	targetObj.setNextPos();
+                		}
+                	else if(counter/10==nSeconds){                    	
+                		shooterObj.moveToTarget();
                     	}
                     
+                	
                     	timeLabel.setText(String.valueOf(counter/10) +"  Distance"+(int)event.distance());
+                    	if(counter/10 + 1>=shooter[0].length){
+                    		cancel();return;
+                    	}	
                     	
                 	}
+                
                 
                     
                 

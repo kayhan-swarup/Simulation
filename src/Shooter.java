@@ -16,10 +16,10 @@ public class Shooter extends JPanel{
 	double angle;
 	public Shooter() {
 		// TODO Auto-generated constructor stub
-		x=50+0;
-		y=200-50;
-		targetX=50+Clock.shooter[0][0];
-		targetY = 200-Clock.shooter[1][0];
+		x=0;
+		y=50;
+		targetX=Clock.shooter[0][0];
+		targetY = Clock.shooter[1][0];
 		angle = Math.tanh((this.y-this.targetY)/(this.x-targetX));
 	}
 	
@@ -64,13 +64,12 @@ public class Shooter extends JPanel{
 	}
 
 	public void moveToTarget(){
-		Graphics2D g = (Graphics2D)getGraphics();
-		g.dispose();
-		
-		double tempDis = distance()-(5*distance()/100);
-		this.x= 50+(int)(tempDis * Math.cos(angle));
-		this.y = 200- (int)(tempDis * Math.sin(angle));
-		setBounds(x, y, 20, 20);
+
+		double tempDis = distance()-(15*distance()/100);
+		this.x= (int)(tempDis * Math.cos(angle));
+		this.y = (int)(tempDis * Math.sin(angle));
+		System.out.println("Shooter [x,y] = "+x +","+y);
+		setBounds(x, y, 20,20);
 	}
 	
 	@Override
@@ -79,14 +78,24 @@ public class Shooter extends JPanel{
 		return new Dimension(20,20);
 	}
 	@Override
-	public void paint(Graphics g) {
-		// TODO Auto-generated method stub
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setForeground(Color.BLUE);
 		g.setColor(Color.BLUE);
-		g.fillRect(0,0, 20, 20);
+		g.fillOval(0,0, 20, 30);
+		setBackground(null);
+		setOpaque(true);
+		setBounds(x, y, 20, 30);
 		g.dispose();
-	}
+	};
+//	@Override
+//	public void paint(Graphics g) {
+//		// TODO Auto-generated method stub
+//		super.paintComponent(g);
+//		setForeground(Color.BLUE);
+//		g.setColor(Color.BLUE);
+//		g.fillRect(0,0, 20, 20);
+//		g.dispose();
+//	}
 	public double distance(){
 		targetX = 50+Clock.shooter[0][Clock.nSeconds];
 		targetY = 200-Clock.shooter[1][Clock.nSeconds];
