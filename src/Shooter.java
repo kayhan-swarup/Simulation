@@ -18,8 +18,8 @@ public class Shooter extends JPanel{
 		// TODO Auto-generated constructor stub
 		x=50+0;
 		y=200-50;
-		targetX=Clock.shooter[0][0];
-		targetY = Clock.shooter[1][0];
+		targetX=50+Clock.shooter[0][0];
+		targetY = 200-Clock.shooter[1][0];
 		angle = Math.tanh((this.y-this.targetY)/(this.x-targetX));
 	}
 	
@@ -88,8 +88,8 @@ public class Shooter extends JPanel{
 		g.dispose();
 	}
 	public double distance(){
-		targetX = Clock.shooter[0][Clock.nSeconds];
-		targetY = 300-Clock.shooter[1][Clock.nSeconds];
+		targetX = 50+Clock.shooter[0][Clock.nSeconds];
+		targetY = 200-Clock.shooter[1][Clock.nSeconds];
 		return Math.pow((Math.pow((x-targetX),2)+Math.pow(y-targetY, 2)), 0.5);
 	}
 	

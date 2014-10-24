@@ -23,21 +23,26 @@ public class Clock extends JFrame{
     					{0,3,5,9,12,15,20,20,20}
     	
    };
-   Shooter shooterObj;
+   public static int[] getXY(){
+	   return new int[] {shooterObj.getX(),shooterObj.getY()};
+   }
+   public static Shooter shooterObj;
+   public static Target targetObj;
     public Clock() {
     	
     	event = new GameEvent();
     	shooterObj = new Shooter();
-    	
+    	targetObj = new Target();
     	
     	timeLabel.setBounds(100, 0, 100, 50);
-    	shooterObj.setLocation(100,200);
+    	shooterObj.setLocation(0,50);
+    	targetObj.setLocation(100,0);
     	updater = new UpdateUITask();
     	
     	timeLabel.setText(String.valueOf(-1));
     	timeLabel.setSize(500,50);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationByPlatform(true);
+        setLocation(0,0);
 	    setVisible(true);
         JPanel main = new JPanel();
         
@@ -45,7 +50,7 @@ public class Clock extends JFrame{
 //        main.add(event);
         add(timeLabel);
         add(shooterObj);
-        
+        add(targetObj);
 //        getContentPane().add(main);
         pack();
 //        setLocationRelativeTo(null);
@@ -74,7 +79,7 @@ public class Clock extends JFrame{
         
         int counter = 0;
         public UpdateUITask(){
-        	
+        	nSeconds = 0;
         }
 
         @Override
@@ -89,11 +94,12 @@ public class Clock extends JFrame{
                 	}
                 		
                 	
-                	if(counter/10==nSeconds)
+                	if(counter/10==nSeconds){
                 		shooterObj.moveToTarget();
-                	else if(counter/10>nSeconds){                    	
+                		}
+                	else {                    	
                     	nSeconds=counter/10;
-                    	event.setAll(counter/10,shooter[0][counter/10], shooter[1][counter/10]);
+                    	targetObj.setNextPos();
                     	}
                     
                     	timeLabel.setText(String.valueOf(counter/10) +"  Distance"+(int)event.distance());
