@@ -21,39 +21,40 @@ public class GameEvent extends JPanel{
 	public static GameEvent currentEvent;
 	
 	public GameEvent(){
-		this.x = 0;this.y = 50;
+		this.x = 20;this.y =  50;
 		this.targetX = Clock.shooter[0][0];
 		this.targetY = Clock.shooter[1][0];
 		this.angle = Math.tanh((this.y-this.targetY)/(this.x-targetX));
+		
 	}
 	
 	@Override
 	   public Dimension getPreferredSize() {
-	      return new Dimension(500,500);
+	      return new Dimension(800,800);
 	   }
 	
 	public GameEvent(int second,int x,int y,int targetX,int targetY){
 		
 		this.second = second;
-		this.x = x;
-		this.y = y;
+		this.x = 20+x;
+		this.y =  y;
 		this.targetX = -targetX;
-		this.targetY = -targetY;
-		this.setSize(new Dimension(500,500));
+		this.targetY =  targetY;
+		
 		this.angle = Math.tanh((this.y-this.targetY)/(this.x-targetX));
 	}
 	
 	public void moveToTarget(){
 		
-		double tempDis = distance()-(3*distance()/100);
+		double tempDis = distance()-(5*distance()/100);
 		this.x= (int)(tempDis * Math.cos(angle));
 		this.y = (int)(tempDis * Math.sin(angle));
 	}
 	double m=-101;
 	public void setAll(int second,int targetX,int targetY){
 		this.second = second;
-		this.targetX = targetX;
-		this.targetY = targetY;
+		this.targetX = 20+targetX;
+		this.targetY =  targetY;
 		
 		
 //		repaint();
