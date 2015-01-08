@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
@@ -14,15 +15,10 @@ public class Shooter extends JPanel{
 	private int targetX,targetY;
 	Rectangle2D.Double rectangle;
 	double angle;
-	public Shooter() {
-		// TODO Auto-generated constructor stub
-		x=0;
-		y=50;
-		targetX=Clock.shooter[0][0];
-		targetY = Clock.shooter[1][0];
-		angle = Math.tanh((this.y-this.targetY)/(this.x-targetX));
+
+	public Shooter(int x,int y){
+		this.x = x;this.y = 0;
 	}
-	
 	public int getX() {
 		return x;
 	}
@@ -63,29 +59,27 @@ public class Shooter extends JPanel{
 		this.rectangle = rectangle;
 	}
 
-	public void moveToTarget(){
-
-		double tempDis = distance()-(15*distance()/100);
-		this.x= (int)(tempDis * Math.cos(angle));
-		this.y = (int)(tempDis * Math.sin(angle));
-		System.out.println("Shooter [x,y] = "+x +","+y);
-		setBounds(x, y, 20,20);
-	}
 	
 	@Override
 	public Dimension getPreferredSize() {
 		// TODO Auto-generated method stub
 		return new Dimension(20,20);
 	}
+	Ellipse2D.Double shooterImg;
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.BLUE);
-		g.fillOval(0,0, 20, 30);
+		Graphics2D g2d = (Graphics2D)g;
+		
+		g2d.setColor(Color.BLUE);
+		
+		shooterImg = new Ellipse2D.Double(0,0, 20, 20);
+		
+		g2d.fill(shooterImg);
 		setBackground(null);
-		setOpaque(true);
-		setBounds(x, y, 20, 30);
-		g.dispose();
+		setOpaque(false);
+		g2d.dispose();
+		
 	};
 //	@Override
 //	public void paint(Graphics g) {
@@ -96,11 +90,7 @@ public class Shooter extends JPanel{
 //		g.fillRect(0,0, 20, 20);
 //		g.dispose();
 //	}
-	public double distance(){
-		targetX = 50+Clock.shooter[0][Clock.nSeconds];
-		targetY = 200-Clock.shooter[1][Clock.nSeconds];
-		return Math.pow((Math.pow((x-targetX),2)+Math.pow(y-targetY, 2)), 0.5);
-	}
+
 	
 	
 	

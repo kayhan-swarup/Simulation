@@ -3,12 +3,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.Graphics;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,37 +22,28 @@ public class Clock extends JFrame{
     					{0,3,5,9,12,15,20,20,20}
     	
    };
-   public static int[] getXY(){
-	   return new int[] {shooterObj.getX(),shooterObj.getY()};
-   }
-   public static Shooter shooterObj;
-   public static Target targetObj;
     public Clock() {
     	
     	event = new GameEvent();
-    	shooterObj = new Shooter();
-    	targetObj = new Target();
-    	
+    	event.setBounds(0,0,1000,500);
     	updater = new UpdateUITask();
     	
     	timeLabel.setText(String.valueOf(-1));
-    	timeLabel.setBounds(200, 20, 100, 50);
+    	setBackground(null);
     	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100,800, 600);
-        JPanel main = new JPanel();
-        setLayout(new BorderLayout());
-        main.setLayout(null);
-        main.setSize(500,500);
-//        main.add(event);
-        main.add(shooterObj);
-        main.add(targetObj);
-        add(timeLabel,BorderLayout.PAGE_START);
-        add(main,BorderLayout.CENTER);
+//        JPanel main = new JPanel();
+       setLayout(new FlowLayout());
+       add(timeLabel);
+       
+       add(event);
+        
+//        getContentPane().add(event);
 //        getContentPane().add(main);
         pack();
 //        setLocationRelativeTo(null);
         setVisible(true);
+        
         timer.schedule(updater, 0, 100);
     }
 
@@ -70,7 +60,7 @@ public class Clock extends JFrame{
 	@Override
 	public Dimension getPreferredSize() {
 		// TODO Auto-generated method stub
-		return new Dimension(800,800);
+		return new Dimension(1400,800);
 	}
 	public static int nSeconds = 0;
 	private class UpdateUITask extends TimerTask {
@@ -93,16 +83,16 @@ public class Clock extends JFrame{
                 	
                 	if(counter/10>nSeconds){
                 		nSeconds=counter/10;
-                    	targetObj.setNextPos();
+                		event.setAll(nSeconds,shooter[0][nSeconds],shooter[1][nSeconds]);
+                		event.moveToTarget();
                 		}
-                	else if(counter/10==nSeconds){                    	
-                		shooterObj.moveToTarget();
+                	else if(counter/10==nSeconds){
+                		event.moveToTarget();
                     	}
                     
-                	
                     	timeLabel.setText(String.valueOf(counter/10) +"  Distance"+(int)event.distance());
                     	if(counter/10 + 1>=shooter[0].length){
-                    		cancel();return;
+                    		cancel();
                     	}	
                     	
                 	}
@@ -113,18 +103,19 @@ public class Clock extends JFrame{
             });
         }
     }
+	
 
+//	@Override
+//	public void paint(Graphics arg0) {
+//		// TODO Auto-generated method stub
+//		super.paint(arg0);
+//		
+//	}
 	public static Clock mainClock;
     public static void main(String args[]) {
     
-    	
-        EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-            	final Clock clock  = new Clock();
-//            	clock.setForeground(Color.GRAY);
-            }
-        });
+    	Clock clock = new Clock();
+    	clock.setBounds(0,0,1400,800);
+        
     }
 }
